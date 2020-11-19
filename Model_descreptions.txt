@@ -1,0 +1,34 @@
+##Elite 8
+model = lgb.LGBMClassifier(
+        n_estimators=10000,
+        learning_rate=0.03,
+        num_leaves=34,
+        colsample_bytree=0.9,
+        subsample=0.8,
+        max_depth=8,
+        reg_alpha=.1,
+        reg_lambda=.1,
+        min_split_gain=.01,
+        min_child_weight=250,
+        )
+##Elite 9
+Same as Elite 8: Early Stopping rounds = 200
+
+##Elite 10
+Same as Elite 8: Shuffle=True in kfold
+
+##Elite 8_9_10_avg: avg of 8,9,10
+
+##Elite 11
+        model = lgb.LGBMClassifier(
+        n_estimators=1000,
+        learning_rate=0.03,
+        boosting_type='dart',
+        reg_alpha=0.1,
+        reg_lambda=0.1,
+        )
+        # Train the model
+        model.fit(train_features, train_labels, eval_metric = 'auc',
+                  eval_set = [(valid_features, valid_labels), (train_features, train_labels)],
+                  eval_names = ['valid', 'train'], categorical_feature = cat_indices,
+                  early_stopping_rounds = 100, verbose = 200)
